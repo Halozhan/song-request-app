@@ -8,7 +8,9 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [applicant, setApplicant] = useState("");
-  const [songs, setSongs] = useState([]);
+  const [songs, setSongs] = useState<
+    { title: string; artist: string; applicant: string }[]
+  >([]);
 
   const fetchSongs = async () => {
     try {
@@ -99,7 +101,7 @@ export default function Home() {
       </form>
 
       <h2>신청된 노래 목록</h2>
-      <table border="1" style={{ marginTop: "1rem", width: "100%" }}>
+      <table border={1} style={{ marginTop: "1rem", width: "100%" }}>
         <thead>
           <tr>
             <th>노래 제목</th>
