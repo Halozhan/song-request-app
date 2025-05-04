@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,6 +8,27 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [applicant, setApplicant] = useState("");
+  const [songs, setSongs] = useState([]);
+
+  const fetchSongs = async () => {
+    try {
+      const response = await fetch("/api/get-songs");
+      const data = await response.json();
+      setSongs(data);
+    } catch (error) {
+      console.error("Error fetching songs:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSongs(); // 초기 데이터 로드
+
+    const interval = setInterval(() => {
+      fetchSongs(); // 주기마다 데이터 새로고침
+    }, 2000);
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 타이머 정리
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +52,7 @@ export default function Home() {
         setTitle("");
         setArtist("");
         setApplicant("");
+        fetchSongs(); // 새 데이터를 가져옵니다.
       } else {
         toast.error(data.message);
       }
@@ -75,6 +97,27 @@ export default function Home() {
         />
         <button type="submit">신청하기</button>
       </form>
+
+      <h2>신청된 노래 목록</h2>
+      <table border="1" style={{ marginTop: "1rem", width: "100%" }}>
+        <thead>
+          <tr>
+            <th>노래 제목</th>
+            <th>가수</th>
+            <th>신청자 이름</th>
+          </tr>
+        </thead>
+        <tbody>
+          {songs.map((song, index) => (
+            <tr key={index}>
+              <td>{song.title}</td>
+              <td>{song.artist}</td>
+              <td>{song.applicant}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
       <ToastContainer />
     </div>
   );
