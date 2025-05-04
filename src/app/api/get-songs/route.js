@@ -11,15 +11,15 @@ export async function GET() {
 
     const songs = response.results
       .map((page) => ({
+        id: page.properties["ID"].unique_id?.number || 0,
         title: page.properties["노래 제목"].title[0]?.text.content || "",
         artist: page.properties["가수"].rich_text[0]?.text.content || "",
         applicant:
           page.properties["신청자 이름"].rich_text[0]?.text.content || "",
         status: page.properties["상태"].status?.name || "", // 상태 필드 추가
-        createdTime: page.created_time, // 생성 일시 추가
       }))
       .filter((song) => song.status !== "완료") // 완료 상태 숨기기
-      .sort((a, b) => new Date(a.createdTime) - new Date(b.createdTime)); // 생성 일시 기준 오름차순 정렬
+      .sort((a, b) => a.id - b.id); // ID 낮은게 맨 위로 오도록 정렬
 
     return NextResponse.json(songs);
   } catch (error) {
