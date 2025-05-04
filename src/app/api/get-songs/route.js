@@ -9,10 +9,6 @@ export async function GET() {
       database_id: process.env.NOTION_DATABASE_ID,
     });
 
-    response.results.forEach((page) => {
-      console.log(page.properties["상태"]);
-    });
-
     const songs = response.results
       .map((page) => ({
         title: page.properties["노래 제목"].title[0]?.text.content || "",
