@@ -118,22 +118,24 @@ export default function Home() {
         <table className="table-auto w-full bg-white rounded-lg shadow-md">
           <thead className="bg-blue-500 text-white">
             <tr>
-              <th className="px-4 py-2">노래 제목</th>
-              <th className="px-4 py-2">가수</th>
-              <th className="px-4 py-2">신청자 이름</th>
+              <th className="border px-4 py-2">노래 제목</th>
+              <th className="border px-4 py-2">가수</th>
+              <th className="border px-4 py-2">신청자 이름</th>
             </tr>
           </thead>
           <tbody>
             {songs.map((song, index) => (
               <tr
                 key={index}
-                className={`${
-                  index % 2 === 0 ? "bg-fuchsia-400" : "bg-fuchsia-300"
-                }`}
+                className={`${index % 2 === 0 ? "bg-gray-200" : "bg-gray-50"}`}
               >
-                <td className="border px-4 py-2">{song.title}</td>
-                <td className="border px-4 py-2">{song.artist}</td>
-                <td className="border px-4 py-2">{song.applicant}</td>
+                <td className="border px-4 py-2 text-blue-500">{song.title}</td>
+                <td className="border px-4 py-2 text-blue-500">
+                  {song.artist}
+                </td>
+                <td className="border px-4 py-2 text-blue-500">
+                  {song.applicant}
+                </td>
               </tr>
             ))}
           </tbody>
