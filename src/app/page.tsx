@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./globals.css";
 
 export default function Home() {
   const [title, setTitle] = useState("");
   const [artist, setArtist] = useState("");
   const [applicant, setApplicant] = useState("");
   const [songs, setSongs] = useState<
-    { title: string; artist: string; applicant: string }[]
+    { title: string; artist: string; applicant: string; status: string }[]
   >([]);
 
   const fetchSongs = async () => {
@@ -80,7 +81,8 @@ export default function Home() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500 placeholder-gray-400"
+            style={{ lineHeight: "1.5" }}
           />
         </div>
         <div className="mb-4">
@@ -90,7 +92,8 @@ export default function Home() {
             value={artist}
             onChange={(e) => setArtist(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500 placeholder-gray-400"
+            style={{ lineHeight: "1.5" }}
           />
         </div>
         <div className="mb-4">
@@ -100,7 +103,8 @@ export default function Home() {
             value={applicant}
             onChange={(e) => setApplicant(e.target.value)}
             required
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-blue-500 placeholder-gray-400"
+            style={{ lineHeight: "1.5" }}
           />
         </div>
         <button
@@ -120,7 +124,8 @@ export default function Home() {
             <tr>
               <th className="border px-4 py-2">노래 제목</th>
               <th className="border px-4 py-2">가수</th>
-              <th className="border px-4 py-2">신청자 이름</th>
+              <th className="border px-4 py-2">신청자</th>
+              <th className="border px-4 py-2">상태</th>
             </tr>
           </thead>
           <tbody>
@@ -129,12 +134,25 @@ export default function Home() {
                 key={index}
                 className={`${index % 2 === 0 ? "bg-gray-200" : "bg-gray-50"}`}
               >
-                <td className="border px-4 py-2 text-blue-500">{song.title}</td>
-                <td className="border px-4 py-2 text-blue-500">
+                <td className="border border-blue-500 px-4 py-2 text-blue-500">
+                  {song.title}
+                </td>
+                <td className="border border-blue-500 px-4 py-2 text-blue-500">
                   {song.artist}
                 </td>
-                <td className="border px-4 py-2 text-blue-500">
+                <td className="border border-blue-500 px-4 py-2 text-blue-500">
                   {song.applicant}
+                </td>
+                <td
+                  className={`border border-blue-500 px-4 py-2 ${
+                    song.status === "시작 전"
+                      ? "text-gray-500"
+                      : song.status === "진행 중"
+                      ? "text-red-500"
+                      : "text-blue-500"
+                  }`}
+                >
+                  {song.status}
                 </td>
               </tr>
             ))}

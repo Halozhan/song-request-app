@@ -14,8 +14,7 @@ export async function GET() {
         id: page.properties["ID"].unique_id?.number || 0,
         title: page.properties["노래 제목"].title[0]?.text.content || "",
         artist: page.properties["가수"].rich_text[0]?.text.content || "",
-        applicant:
-          page.properties["신청자 이름"].rich_text[0]?.text.content || "",
+        applicant: page.properties["신청자"].rich_text[0]?.text.content || "",
         status: page.properties["상태"].status?.name || "", // 상태 필드 추가
       }))
       .filter((song) => song.status !== "완료") // 완료 상태 숨기기

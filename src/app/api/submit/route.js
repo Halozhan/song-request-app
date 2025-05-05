@@ -36,7 +36,7 @@ export async function POST(req) {
             },
           ],
         },
-        "신청자 이름": {
+        신청자: {
           rich_text: [
             {
               text: {
